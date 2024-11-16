@@ -5,9 +5,11 @@ import {
   AiOutlinePieChart,
   AiOutlineSetting,
 } from "react-icons/ai";
+import { useDarkMode } from "../lib/DarkModeProvider";
 
 const Sidebar = ({ isMinimized, toggleSidebar }) => {
   const location = useLocation();
+  const { isDarkMode } = useDarkMode();
 
   const menuItems = [
     { name: "Dashboard", icon: <AiOutlineDashboard />, path: "/" },
@@ -17,12 +19,17 @@ const Sidebar = ({ isMinimized, toggleSidebar }) => {
 
   return (
     <div
-      className={`h-screen bg-gray-800 text-white ${
+      className={`min-h-[105vh] ${
+        isDarkMode ? "bg-gray-900 text-white" : "bg-gray-800 text-gray-100"
+      } ${
         isMinimized ? "w-16" : "w-64"
       } transition-all duration-300 fixed sm:static sm:block hidden`}
     >
-      {/* Sidebar Header */}
-      <div className="flex items-center justify-between p-4">
+      <div
+        className={`flex items-center justify-between p-4 ${
+          isDarkMode ? "border-b border-gray-700" : "border-b border-gray-600"
+        }`}
+      >
         {!isMinimized ? (
           <h1 className="text-xl font-bold">CryptoDash</h1>
         ) : (
@@ -31,34 +38,37 @@ const Sidebar = ({ isMinimized, toggleSidebar }) => {
 
         <button
           onClick={toggleSidebar}
-          className="text-gray-300 hover:text-white focus:outline-none"
+          className={`text-gray-300 hover:text-white focus:outline-none ${
+            isDarkMode ? "hover:text-gray-400" : "hover:text-gray-200"
+          }`}
         >
           {isMinimized ? ">" : "<"}
         </button>
       </div>
-
-      {/* Menu Items */}
       <ul className="mt-4 space-y-2">
         {menuItems.map((item) => (
-          <li key={item.name}>
+          <li key={item.name} className="group relative">
             <Link
               to={item.path}
-              className={`flex items-center p-2 rounded-md hover:bg-gray-700 ${
-                location.pathname === item.path ? "bg-gray-700" : ""
+              className={`flex items-center p-2 rounded-md ${
+                location.pathname === item.path
+                  ? isDarkMode
+                    ? "bg-gray-700"
+                    : "bg-gray-600"
+                  : "hover:bg-gray-700"
               }`}
             >
-              {!isMinimized ? (
-                <span className="text-xl">{item.icon}</span>
-              ) : (
-                <span className="flex items-center justify-between pl-3">
-                  {item.icon}
-                </span>
-              )}
-
+              <span className="text-xl">{item.icon}</span>
               {!isMinimized && <span className="ml-4">{item.name}</span>}
             </Link>
             {isMinimized && (
-              <div className="absolute left-16 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white text-sm rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-200">
+              <div
+                className={`absolute left-16 top-1/2 transform -translate-y-1/2 px-2 py-1 rounded-md shadow-md text-sm ${
+                  isDarkMode
+                    ? "bg-gray-800 text-white"
+                    : "bg-gray-700 text-gray-100"
+                } opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-200`}
+              >
                 {item.name}
               </div>
             )}

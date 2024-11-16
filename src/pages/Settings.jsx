@@ -3,7 +3,7 @@ import WorkInProgress from "../components/WorkInProgress";
 
 const Settings = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-full text-center">
+    <div className="flex flex-col items-center justify-center h-full text-center min-h-[105vh]">
       <h1 className="text-4xl font-bold text-gray-800">Settings</h1>
       <WorkInProgress
         alt="Settings Work in Progress"
