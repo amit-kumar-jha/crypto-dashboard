@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
+import MobileHeader from "./Header";
 
 const Layout = ({ children }) => {
   const [isMinimized, setIsMinimized] = useState(false);
@@ -8,6 +9,7 @@ const Layout = ({ children }) => {
   return (
     <div className="flex">
       {/* Sidebar */}
+      <MobileHeader />
       <Sidebar
         toggleSidebar={toggleSidebar}
         isMinimized={isMinimized}
@@ -15,7 +17,9 @@ const Layout = ({ children }) => {
       />
 
       {/* Main Content */}
-      <div className={`flex-1 transition-all duration-300`}>
+      <div
+        className={`flex-1 transition-all duration-300 pt-[64px] md:pt-[0px]`}
+      >
         <div className="p-4">{children}</div>
       </div>
     </div>
